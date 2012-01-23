@@ -2,70 +2,74 @@ $(document).ready(function(){
 
   $('#go, #try_again').click(function(){
     $('#numbers tbody tr').remove();
+    var attempts = $('#attempts').val();
+    var digitsNumber = $('#digits_number').val();
     var rows = $('#rows').val();
-    var digits_number = $('#digits_number').val();
-    var lines = 2;
-    for(var i=0; i<rows; i++)
+    for(var i=0; i<attempts; i++)
     {
-      var append = '<tr><td>';
-      //for(var j = 0; j < lines; j++) {
-        append += '<span id="'+i+'" style="display:none;width:100px;">'+ generateNumber(digits_number) +'</span><br />';
-      //}
+      var append = '<tr id="attempt_' + i + '"><td>';
+      for(var j = 0; j < rows; j++) {
+        append += '<span id="hidden_'+i+j+'" class="hidden">'+ generateNumber(digitsNumber) +'</span><br />';
+      }
 
-      append += '</td><td><img src="images/play.png" onclick="play('+i+')"/></td><td>';
+      append += '</td><td><img src="images/play.png" class="play"/></td><td>';
 
-      //for(var j = 0; j < lines; j++) {
-        append += '<input type="text" id="input'+i+'" /><br />';
-      //}
+      for(var j = 0; j < rows; j++) {
+        append += '<input type="text" id="hidden_input_'+i+j+'" /><br />';
+      }
 
-      append += '</td><td id="result'+i+'"></td></tr>';
+      append += '</td><td id="result_'+i+'"></td></tr>';
       $('table#numbers tbody').append(append);
     }
+
+    $('.play').click(function play(event)
+                    {
+                      var id = $(event.currentTarget).parent().parent().attr('id');
+                      var time = $('#time').val();
+                      $('#'+id+' td span.hidden').show();
+                      setTimeout("$('#"+id+" td span.hidden').hide();", time);
+                      console.log($(event.currentTarget).parent().next());
+                      var $input = $(event.currentTarget).parent().next().find('input:first-child').focus();
+                    });
 
     $('table#numbers tr').fadeIn();
     
     $('#try_again').fadeOut();
     $('#check').fadeIn();
     $('#result').html('');
-    
+
   });
 
   $('#check').click(function(){
-      var rows = $('#rows').val();
+      $('.play').unbind('click');
+      var attempts = $('#attempts').val();
       var correct = 0;
-      for(var i=0; i<rows; i++)
+      var rows = $('#rows').val();
+      for(var i=0; i<attempts; i++)
       {
-        if( $('span#'+i).html() == $('#input'+i).val())
+        $('#result_'+i).html( '' );
+        for(var j=0; j<rows; j++)
         {
-          correct++;
-          $('#result'+i).html( '<img src="images/check.png" />' );
-        }
-        else
-        {
-          $('#result'+i).html( '<img src="images/error.png" />' );
+            if( $('#hidden_'+i+j).html() == $('#hidden_input_'+i+j).val())
+            {
+              correct++;
+              $('#result_'+i).append( '<img src="images/check.png" />' );
+            }
+            else
+            {
+              $('#result_'+i).append( '<img src="images/error.png" />' );
+            }
         }
       }
-      var percent = (correct/rows)*100;
 
+      var percent = (correct/(attempts*rows))*100;
       $('#result').html(percent+'% correcto');
- 
-    $('#numbers td span').fadeIn();
-
-    $('#check').fadeOut();
-    
-    $('#try_again').fadeIn();
-
+      $('#numbers td span').fadeIn();
+      $('#check').fadeOut();
+      $('#try_again').fadeIn();
   });
 
 });
-
-function play(id)
-{
-  var time = $('#time').val();
-  $('#'+id).show();
-    setTimeout("$('#"+id+"').hide();", time);
-    $('#input'+id).focus();
-}
 
 function generateNumber(digits)
 {
@@ -76,33 +80,6 @@ function generateNumber(digits)
 
 function generateWord(){
 var words = new Array();
-words[1] = 'entre';
-words[2] = 'dos';
-words[3] = 'primero';
-words[4] = 'mismo';
-words[5] = 'nos';
-words[6] = 'porque';
-words[7] = 'cuando';
-words[8] = 'sin';
-words[9] = 'muy';
-words[10] = 'mucho';
-words[11] = 'sobre';
-words[12] = 'saber';
-words[13] = 'deber';
-words[14] = 'alguno';
-words[15] = 'sólo';
-words[16] = 'sí';
-words[17] = 'pasar';
-words[18] = 'país';
-words[19] = 'ver';
-words[20] = 'Parte';
-words[21] = 'Oración';
-words[22] = 'hasta';
-words[23] = 'vez';
-words[24] = 'Palabra';
-words[25] = 'también';
-words[26] = 'aquel';
-words[27] = 'día';
-
-return words[(Math.round(Math.random()*(26)))];
+words = ['entre', 'dos', 'primero', 'mismo', 'nos', 'porque', 'cuando', 'sin', 'muy', 'mucho', 'sobre', 'saber', 'deber', 'alguno', 'sólo', 'sí', 'pasar', 'país', 'ver', 'Parte', 'Oración', 'hasta', 'vez', 'Palabra', 'también', 'aquel', 'día'];
+return words[Math.round(Math.random()*words.length-1)];
 }
