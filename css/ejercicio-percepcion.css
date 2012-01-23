@@ -5,10 +5,11 @@
 #numbers { margin-top: 25px; text-align: center; }
 #numbers tr { display:none; }
 #numbers tfoot td { padding-top:10px; }
-#numbers input { width: 74px; padding:4px; }
+#numbers input[type=text] { width: 74px; padding:4px; }
 #numbers tbody tr td:nth-child(2) { padding:5px; }
 #numbers tbody tr td:nth-child(2) img { cursor: pointer; }
 #result { text-align: center; margin-top:20px;  }
 .hidden {display:none;}
 td.hidden{width:100px;}
+#app input[type=text]{width:100px;}
 #app input[type=text]{width:100px;}

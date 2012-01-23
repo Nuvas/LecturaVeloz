@@ -12,7 +12,7 @@ $(document).ready(function(){
         append += '<span id="hidden_'+i+j+'" class="hidden">'+ generateNumber(digitsNumber) +'</span><br />';
       }
 
-      append += '</td><td><img src="images/play.png" class="play"/></td><td>';
+      append += '</td><td><input type="image" src="images/play.png" class="play" alt="play"/></td><td>';
 
       for(var j = 0; j < rows; j++) {
         append += '<input type="text" id="hidden_input_'+i+j+'" /><br />';
@@ -37,7 +37,6 @@ $(document).ready(function(){
     $('#try_again').fadeOut();
     $('#check').fadeIn();
     $('#result').html('');
-
   });
 
   $('#check').click(function(){
