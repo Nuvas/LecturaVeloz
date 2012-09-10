@@ -1,7 +1,5 @@
-#app { margin-top: 30px;height:192px;}
-#app * { margin:auto; }
+#app * {margin:auto;}
 #panel, #unit, #options{margin:auto;height:64px;}
-#leftPanel{float:left;width:300px;}
-#rightPanel{float:right;width:300px;}
-.clear{clear:both;}
 #score{color:#3366ff;}
+.border{border:1px solid #3366ff;}
+h2{height:32px;}
