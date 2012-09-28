@@ -1,5 +1,3 @@
-#app * {margin:auto;}
-#panel, #unit, #options{margin:auto;height:64px;}
 #score{color:#3366ff;}
-.border{border:1px solid #3366ff;}
 h2{height:32px;}
+.group{float:left;margin:20px !important;}

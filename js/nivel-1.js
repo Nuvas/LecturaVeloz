@@ -20,68 +20,24 @@ $(document).ready(function(){
 
     preloadImages(availableImages);
     preloadImages(otherImages);
-
     setLevel();
 
-    $('#show').click(function(event){
+    // click for childrens, and touch devices
+    $('#show').click(showUnit);
+    $('.an_option').live('click', checkSelection);
 
-        var units = generateImage(currentLevel.numberOfOptions, currentLevel.rows);
-        var option;
-
-        for(i in units) {
-            option = '';
-            for(j in units[i]) {
-                option += '<input type="image" src="'+units[i][j]+'"/>';
-            }
-            $('#option'+i).html(option);
-
-            if (units[i].length > 1) {
-                $('#option'+i).addClass('border')
-            }
+    // keyboard for adults, gamers
+    $('body').keypress(function(event){
+        if(event.keyCode == 32) {
+            showUnit(event);
         }
 
-        var theIndex = getRandomInt(0,currentLevel.numberOfOptions-1);
-        var theUnit = '';
-        for (i in units[theIndex]) {
-            theUnit += '<img src="'+units[theIndex][i]+'"/>';
+        if(event.keyCode > 47 && event.keyCode < 58) {
+            var number = event.keyCode - 48 - 1;
+            $('#options #option' + number).trigger('click');
         }
-
-        $('#unit').html(theUnit).show();
-        setTimeout("$('#unit img').hide();", currentLevel.time);
-        setTimeout("$('#options').fadeIn();", currentLevel.time+300);
-    });
-
-    $('.an_option').live('click', function(){
-        var optionSrc = [];
-        $(this).find('input[type=image]').each(function(){
-            optionSrc.push($(this).attr('src'));
-        });
-
-        var unitSrc = []
-        $('#unit img').each(function(){
-            unitSrc.push($(this).attr('src'));
-        });
-
-        if (optionSrc.join() == unitSrc.join()) {
-            $('#status').html('<img src="images/check.png" />');
-            asserts += 1;
-            var tilin = new Audio('tilin.ogg');
-            tilin.play();
-        } else {
-            $('#status').html('<img src="images/error.png" />');
-            var cueck  = new Audio('cueck.ogg');
-            cueck.play();
-            asserts -= 1;
-        }
-        setTimeout("$('#status').empty();", 500);
-        $('#score').html(asserts+'/'+currentLevel.asserts);
-
-        if (currentLevel.asserts == asserts) {
-            setLevel()
-        }
-
-    });
-
+    })
+    
 });
 
 function generateNumber(digits)
@@ -137,4 +93,70 @@ function preloadImages(arrayOfImages) {
     $(arrayOfImages).each(function(){
         $('<img/>')[0].src = this;
     });
+}
+
+function showUnit(event){
+    var units = generateImage(currentLevel.numberOfOptions, currentLevel.rows);
+    var option;
+
+    for(i in units) {
+        option = '';
+        for(j in units[i]) {
+            option += '<input type="image" src="'+units[i][j]+'"/>';
+            if (units[i].length == 4 && j == 1) {
+                option += '<br/>'
+            }
+        }
+        $('#option'+i).html(option);
+
+        if (units[i].length > 1) {
+            $('#option'+i).addClass('group');
+        }
+    }
+
+    var theIndex = getRandomInt(0,currentLevel.numberOfOptions-1);
+    var theUnit = '';
+    for (i in units[theIndex]) {
+        theUnit += '<img src="'+units[theIndex][i]+'"/>';
+        if (units[theIndex].length == 4 && i == 1) {
+            theUnit += '<br/>'
+        }
+    }
+
+    $('#unit').html(theUnit).show();
+    setTimeout("$('#unit img').hide();", currentLevel.time);
+    setTimeout("$('#options').fadeIn();", currentLevel.time+300);
+}
+
+function checkSelection(event){
+    var optionSrc = [];
+    $(this).find('input[type=image]').each(function(){
+        optionSrc.push($(this).attr('src'));
+    });
+
+    var unitSrc = [];
+    $('#unit img').each(function(){
+        unitSrc.push($(this).attr('src'));
+    });
+
+    if (optionSrc.join() == unitSrc.join()) {
+        $('#status').html('<img src="images/check.png" />');
+        asserts += 1;
+        var tilin = new Audio('tilin.ogg');
+        tilin.play();
+        $('#options .an_option').empty();
+    } else {
+        $('#status').html('<img src="images/error.png" />');
+        var cueck  = new Audio('cueck.ogg');
+        cueck.play();
+        asserts -= 1;
+    }
+
+    setTimeout("$('#status').empty();", 500);
+    $('#score').html(asserts+'/'+currentLevel.asserts);
+
+    if (currentLevel.asserts == asserts) {
+        setLevel();
+    }
+
 }
