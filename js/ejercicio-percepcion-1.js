@@ -23,14 +23,14 @@ $(document).ready(function(){
     }
 
     $('.play').click(function play(event)
-                    {
-                      var id = $(event.currentTarget).parent().parent().attr('id');
-                      var time = $('#time').val();
-                      $('#'+id+' td span.hidden').show();
-                      setTimeout("$('#"+id+" td span.hidden').hide();", time);
-                      console.log($(event.currentTarget).parent().next());
-                      var $input = $(event.currentTarget).parent().next().find('input:first-child').focus();
-                    });
+	{
+	  var id = $(event.currentTarget).parent().parent().attr('id');
+	  var time = $('#time').val();
+	  $('#'+id+' td span.hidden').show();
+	  setTimeout("$('#"+id+" td span.hidden').hide();", time);
+	  console.log($(event.currentTarget).parent().next());
+	  var $input = $(event.currentTarget).parent().next().find('input:first-child').focus();
+	});
 
     $('table#numbers tr').fadeIn();
     

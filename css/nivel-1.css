@@ -1,3 +1,8 @@
-#score{color:#3366ff;}
+body{font-family:courier new;}
 h2{height:32px;}
 .group{float:left;margin:20px !important;}
+#panel{text-align:center;}
+#unit{text-align:center;}
+#options{text-align:center;}
+h1,h2{text-align:center;}
+#message{text-align:center;font-size:30px;}

@@ -1,25 +1,33 @@
-var level0 = {name: 'Nivel 0', numberOfOptions: 3, time: 500, rows:1, asserts: 10}
-var level1 = {name: 'Nivel 1', numberOfOptions: 3, time: 300, rows:1, asserts: 10}
-var level2 = {name: 'Nivel 2', numberOfOptions: 4, time: 400, rows:1, asserts: 10}
-var level3 = {name: 'Nivel 3', numberOfOptions: 4, time: 300, rows:1, asserts: 10}
-var level4 = {name: 'Nivel 4', numberOfOptions: 3, time: 500, rows:2, asserts: 10}
-var level5 = {name: 'Nivel 5', numberOfOptions: 4, time: 300, rows:2, asserts: 10}
-var level6 = {name: 'Nivel 6', numberOfOptions: 4, time: 200, rows:2, asserts: 10}
-var level7 = {name: 'Nivel 7', numberOfOptions: 4, time: 300, rows:4, asserts: 10}
-var level8 = {name: 'Nivel 8', numberOfOptions: 4, time: 300, rows:4, asserts: 10}
-var level9 = {name: 'Nivel 9', numberOfOptions: 6, time: 200, rows:6, asserts: 10}
+var level0 = {name: 'Nivel 0', numberOfOptions: 3, time: 500, rows:1, asserts: 10};
+var level1 = {name: 'Nivel 1', numberOfOptions: 3, time: 300, rows:1, asserts: 10};
+var level2 = {name: 'Nivel 2', numberOfOptions: 4, time: 400, rows:1, asserts: 10};
+var level3 = {name: 'Nivel 3', numberOfOptions: 4, time: 300, rows:1, asserts: 10};
+var level4 = {name: 'Nivel 4', numberOfOptions: 3, time: 500, rows:2, asserts: 10};
+var level5 = {name: 'Nivel 5', numberOfOptions: 4, time: 300, rows:2, asserts: 10};
+var level6 = {name: 'Nivel 6', numberOfOptions: 4, time: 200, rows:2, asserts: 10};
+var level7 = {name: 'Nivel 7', numberOfOptions: 4, time: 300, rows:4, asserts: 10};
+var level8 = {name: 'Nivel 8', numberOfOptions: 4, time: 300, rows:4, asserts: 10};
+var level9 = {name: 'Nivel 9', numberOfOptions: 6, time: 200, rows:6, asserts: 10};
 // reverse because we use pop()
 var levels = [level0, level1, level2, level3, level4, level5, level6, level7,
               level8, level9].reverse();
 var currentLevel;
-var availableImages = ['images/units/apple.png', 'images/units/ball.png', 'images/units/banana.png', 'images/units/bike.png', 'images/units/boy.png', 'images/units/bucket.png', 'images/units/cat.png', 'images/units/crab.png', 'images/units/dog.png', 'images/units/flashlight.png', 'images/units/gift.png', 'images/units/girl.png', 'images/units/grape.png', 'images/units/help.png', 'images/units/icecream.png', 'images/units/joystick.png', 'images/units/orange.png', 'images/units/papaya.png', 'images/units/picture.png', 'images/units/pineapple.png', 'images/units/pipe.png', 'images/units/roller.png', 'images/units/shark.png', 'images/units/shell.png', 'images/units/skate.png', 'images/units/starfish.png', 'images/units/strawberry.png', 'images/units/sun.png', 'images/units/sunshade.png', 'images/units/surf.png', 'images/units/toy.png', 'images/units/watermelon.png', 'images/units/wave.png'];
-var otherImages = ['images/check.png', 'images/error.png'];
+var availableImages = [	'images/units/apple.png', 'images/units/ball.png', 'images/units/banana.png',
+						'images/units/bike.png', 'images/units/boy.png', 'images/units/bucket.png',
+						'images/units/cat.png', 'images/units/crab.png', 'images/units/dog.png',
+						'images/units/flashlight.png', 'images/units/gift.png', 'images/units/girl.png',
+						'images/units/grape.png', 'images/units/help.png', 'images/units/icecream.png',
+						'images/units/joystick.png', 'images/units/orange.png', 'images/units/papaya.png',
+						'images/units/picture.png', 'images/units/pineapple.png', 'images/units/pipe.png',
+						'images/units/roller.png', 'images/units/shark.png', 'images/units/shell.png',
+						'images/units/skate.png', 'images/units/starfish.png', 'images/units/strawberry.png',
+						'images/units/sun.png', 'images/units/sunshade.png', 'images/units/surf.png',
+						'images/units/toy.png', 'images/units/watermelon.png', 'images/units/wave.png' ];
 var asserts;
 
 $(document).ready(function(){
 
     preloadImages(availableImages);
-    preloadImages(otherImages);
     setLevel();
 
     // click for childrens, and touch devices
@@ -36,8 +44,7 @@ $(document).ready(function(){
             var number = event.keyCode - 48 - 1;
             $('#options #option' + number).trigger('click');
         }
-    })
-    
+    });
 });
 
 function generateNumber(digits)
@@ -140,20 +147,16 @@ function checkSelection(event){
     });
 
     if (optionSrc.join() == unitSrc.join()) {
-        $('#status').html('<img src="images/check.png" />');
+        $('#message').html('Bkn!');
         asserts += 1;
-        var tilin = new Audio('tilin.ogg');
-        tilin.play();
         $('#options .an_option').empty();
     } else {
-        $('#status').html('<img src="images/error.png" />');
-        var cueck  = new Audio('cueck.ogg');
-        cueck.play();
+        $('#message').html('Buuu!');
         asserts -= 1;
     }
 
-    setTimeout("$('#status').empty();", 500);
-    $('#score').html(asserts+'/'+currentLevel.asserts);
+    setTimeout("$('#message').html('&nbsp;');", 500);
+    $('#score').html(asserts+' / '+currentLevel.asserts);
 
     if (currentLevel.asserts == asserts) {
         setLevel();
